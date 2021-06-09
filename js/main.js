@@ -1,5 +1,4 @@
 'use strict';
-
 {
   const images = [
     'img/pic00.png',
@@ -45,4 +44,35 @@
     document.querySelectorAll('.thumbnails > li')[target].click();
   });
 
+  const prev = document.getElementById('prev')
+  prev.addEventListener('click', () => {
+    let target = currentIndex - 1;
+    if (target < 0) {
+      target = images.length - 1;
+    }
+    document.querySelectorAll('.thumbnails > li')[target].click();
+  });
+
+  let timeoutId;
+
+  function playSlideshow() {
+    timeoutId = setTimeout(() => {
+      next.click();
+      playSlideshow();
+    },1000);
+  }
+
+  let isPlaying = false;
+  
+  const play = document.getElementById('play')
+  play.addEventListener('click', () => {
+    if (isPlaying === false) {
+      playSlideshow();
+      play.textContent = 'pause'
+    } else {
+      clearTimeout(timeoutId);
+      play.textContent = 'play'
+    }
+    isPlaying =! isPlaying
+  });
 }
